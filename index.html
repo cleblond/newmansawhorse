@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newman Projection Builder</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="huebee.min.css">
+    <script src="huebee.pkgd.min.js"></script>
+</head>
+<html>
+    <div class="container">
+       <div class="top-columns">
+        <div class="column">
+            <label for="conformation">Conformation</label>
+            <select id="conformation" name="conformation">
+                <option value="staggered">Staggered</option>
+                <option value="eclipsed">Eclipsed</option>
+            </select>
+           
+            <label for="eclipsed_offset">Eclipsed Offset</label>
+            <input type="number" id="eclipsed_offset" name = "eclipsed_offset" min="0" max="30" value = "10" />
+
+            <canvas id="projectionCanvas" width="300" height="300"></canvas>
+            <canvas id="sawhorseCanvas" width="400" height="300"></canvas>
+            <button onclick="downloadCroppedImage()">Download Image</button>
+        </div>
+       
+
+        
+        
+        <div class="column">
+            <h2>Substituents</h2>
+            <label for="front1">Front Substituent 1:</label>
+            <input type="text" id="front1" value="CH₃"><input class="color-input" value="#000" id="f1color"/>
+            <label for="front2">Front Substituent 2:</label>
+            <input type="text" id="front2" value="CH₃"><input class="color-input" value="#000" id="f2color"/>
+            <label for="front3">Front Substituent 3:</label>
+            <input type="text" id="front3" value="CH₃"><input class="color-input" value="#000" id="f3color"/>
+            <br>
+            <label for="back1">Back Substituent 1:</label>
+            <input type="text" id="back1" value="CH₃"><input class="color-input" value="#000" id="b1color"/>
+            <label for="back2">Back Substituent 2:</label>
+            <input type="text" id="back2" value="CH₃"><input class="color-input" value="#000" id="b2color"/>
+            <label for="back3">Back Substituent 3:</label>
+            <input type="text" id="back3" value="CH₃"><input class="color-input" value="#000" id="b3color"/>
+            
+        </div>
+      </div>
+        <div class="footer">
+           <!-- <button onclick="drawProjection()">Draw Projection</button> -->
+
+            <button onclick="exportCroppedImage()">Insert Image</button>
+            <button onclick="cancel()">Cancel</button>
+        </div>
+        
+        
+    </div>
+
+    <script src="app.js"></script>
+
+
+
+
+</html>
+

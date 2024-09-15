@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sawhorse Projection</title>
+    <style>
+        body { margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        canvas { border: 1px solid black; }
+    </style>
+</head>
+<body>
+    <canvas id="sawhorseCanvas" width="600" height="400"></canvas>
+
+    <script>
+        const canvas = document.getElementById('sawhorseCanvas');
+        const ctx = canvas.getContext('2d');
+
+        const carbonRadius = 20;
+        const bondLength = 100;
+        const angleOffset = Math.PI / 6; // 30 degrees for staggered view
+        const angleEclipsed = 0; // 0 degrees for eclipsed view
+
+        // Atom coordinates
+        const carbon1 = { x: 200, y: 200 };
+        const carbon2 = { x: 300, y: 200 };
+
+/*
+        function drawBond(x1, y1, x2, y2, dashed = false) {
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = '#000';
+            if (dashed) {
+                ctx.setLineDash([5, 5]);
+            } else {
+                ctx.setLineDash([]);
+            }
+            ctx.stroke();
+        }
+*/      
+        function drawBond(x1, y1, x2, y2, dashed = false) {
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = '#000';
+            if (dashed) {
+                ctx.setLineDash([5, 5]);
+            } else {
+                ctx.setLineDash([]);
+            }
+            ctx.stroke();
+        }
+            
+        
+
+        function drawCarbon(x, y) {
+            // Draw carbon atoms as circles
+            ctx.beginPath();
+            ctx.arc(x, y, carbonRadius, 0, 2 * Math.PI);
+            ctx.fillStyle = '#333';
+            ctx.fill();
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = '#000';
+            ctx.stroke();
+        }
+
+        function drawHydrogenLabel(x, y) {
+            // Draw "H" instead of circles for hydrogen atoms
+            ctx.font = '24px Arial';
+            ctx.fillStyle = 'black';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('H', x, y);
+        }
+
+        function drawSawhorseProjection(c1, c2, conformation = 'staggered') {
+            // Draw carbon atoms
+            drawCarbon(c1.x, c1.y);
+            drawCarbon(c2.x, c2.y);
+
+            // Set angles for staggered or eclipsed
+            const angle = conformation === 'staggered' ? angleOffset : angleEclipsed;
+            
+            // Draw bonds for Carbon 1
+            drawBond(c1.x, c1.y, c1.x - bondLength, c1.y - bondLength * Math.sin(angle));
+            drawHydrogenLabel(c1.x - bondLength, c1.y - bondLength * Math.sin(angle)); // H label
+
+            drawBond(c1.x, c1.y, c1.x - bondLength, c1.y + bondLength * Math.sin(angle));
+            drawHydrogenLabel(c1.x - bondLength, c1.y + bondLength * Math.sin(angle)); // H label
+
+            drawBond(c1.x, c1.y, c1.x + bondLength, c1.y);
+            drawHydrogenLabel(c1.x + bondLength, c1.y); // H label
+
+            // Draw bonds for Carbon 2
+            drawBond(c2.x, c2.y, c2.x - bondLength, c2.y - bondLength * Math.sin(angle), true); // Dashed bond
+            drawHydrogenLabel(c2.x - bondLength, c2.y - bondLength * Math.sin(angle)); // H label
+
+            drawBond(c2.x, c2.y, c2.x - bondLength, c2.y + bondLength * Math.sin(angle), true); // Dashed bond
+            drawHydrogenLabel(c2.x - bondLength, c2.y + bondLength * Math.sin(angle)); // H label
+
+            drawBond(c2.x, c2.y, c2.x + bondLength, c2.y, true); // Dashed bond
+            drawHydrogenLabel(c2.x + bondLength, c2.y); // H label
+        }
+
+        // Draw staggered conformation
+        drawSawhorseProjection(carbon1, carbon2, 'staggered');
+        
+        // Uncomment the following line to see the eclipsed conformation
+        // drawSawhorseProjection(carbon1, carbon2, 'eclipsed');
+    </script>
+</body>
+</html>
+
