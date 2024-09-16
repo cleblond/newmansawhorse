@@ -13,14 +13,15 @@
        <div class="top-columns">
         <div class="column">
             <label for="conformation">Conformation</label>
-            <label for="staggered">Staggered</label> 
-            <input type="radio" id="staggered" name="conformation" value="staggered" checked />
+            <label style="display: inline-block;" for="staggered">Staggered</label> 
+            <input style="display: inline-block;"type="radio" id="staggered" name="conformation" value="staggered" checked />
             
-            <label for="eclipsed">Eclipsed</label> 
-            <input type="radio" id="eclipsed" name="conformation" value="eclipsed" />
-           
-            <label for="eclipsed_offset">Eclipsed Offset</label>
-            <input type="number" id="eclipsed_offset" name = "eclipsed_offset" min="0" max="30" value = "10" />
+            <label style="display: inline-block;" for="eclipsed">Eclipsed</label> 
+            <input style="display: inline-block;" type="radio" id="eclipsed" name="conformation" value="eclipsed" />
+           <br>
+            <label style="display: inline-block;" for="eclipsed_offset">Eclipsed Offset</label>
+            <input style="display: inline-block;" type="number" id="eclipsed_offset" name = "eclipsed_offset" min="0" max="30" value = "10" />
+            <br><label>Drag Substituents to fine tune position!</label>
 
             <canvas id="projectionCanvas" width="300" height="300"></canvas>
             <canvas id="sawhorseCanvas" width="400" height="300"></canvas>
@@ -48,13 +49,12 @@
             
         </div>
       </div>
+      <!--
         <div class="footer">
-           <!-- <button onclick="drawProjection()">Draw Projection</button> -->
-
             <button onclick="exportCroppedImage()">Insert Image</button>
             <button onclick="cancel()">Cancel</button>
         </div>
-        
+        -->
         
     </div>
 
