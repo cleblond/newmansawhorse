@@ -48,7 +48,7 @@ function drawProjection() {
 
     
     eclipsed_offset = document.getElementById('eclipsed_offset').value;
-    const conformation = document.getElementById('conformation').value;
+    const conformation = document.querySelector('input[name="conformation"]:checked').value;
      
     // Set rotation for staggered (60 degrees) or eclipsed (0 degrees)
     const rotation = conformation === 'staggered' ? 60 : eclipsed_offset;
@@ -219,48 +219,55 @@ function exportCroppedImage() {
 document.addEventListener('DOMContentLoaded', () => {
     // Get all input fields
     const inputFields = document.querySelectorAll('input[type="text"]');
-    const conformation = document.getElementById('conformation');
+    //const conformation = document.getElementById('conformation');
+    const conformation = document.querySelector('input[name="conformation"]:checked').value;
+
+    const confinputs = document.querySelectorAll('input[name="conformation"]');
+ 
 
     const colors = document.querySelectorAll('.color-input');
     const eclipsed_input = document.getElementById('eclipsed_offset');
 
-        conformation.addEventListener('change', () => {
+    confinputs.forEach(function(input) {
+        input.addEventListener('change', () => {
+            console.log("Change");
             drawProjection();
-            drawSawhorseProjection(carbon1, carbon2, 'staggered');
+            drawSawhorseProjection(carbon1, carbon2);
         });
+    });
 
-        colors.forEach(function(input) {
-           let hueb = new Huebee(input, {
-             saturations: 1,
-             setBGColor: true,
-             setText: true,
-             inputId: input.id,
-             shades: 3,
-             hues: 1
-           });
-           
-            hueb.on( 'change', function(color, hue, sat, lum ) {
-              
-              let labelid = document.getElementById(hueb.anchor.id).previousSibling.id;
-              
-              let subid = labelid.slice(-1);
-                            
-              if (labelid.substring(0, 1) == "f") {
-              
-                substituents['front'][subid -1].color = color;
-              
-              } else {
-                substituents['back'][subid -1].color = color;
-              
-              }
-              drawProjection();
-              drawSawhorseProjection(carbon1, carbon2, 'staggered');
-              
-              hueb.close();
-            })
-           
-           
+    colors.forEach(function(input) {
+        let hueb = new Huebee(input, {
+            saturations: 1,
+            setBGColor: true,
+            setText: true,
+            inputId: input.id,
+            shades: 3,
+            hues: 1
         });
+        
+        hueb.on( 'change', function(color, hue, sat, lum ) {
+            
+            let labelid = document.getElementById(hueb.anchor.id).previousSibling.id;
+            
+            let subid = labelid.slice(-1);
+                        
+            if (labelid.substring(0, 1) == "f") {
+            
+            substituents['front'][subid -1].color = color;
+            
+            } else {
+            substituents['back'][subid -1].color = color;
+            
+            }
+            drawProjection();
+            drawSawhorseProjection(carbon1, carbon2);
+            
+            hueb.close();
+        })
+        
+        
+    });
     
     eclipsed_input.addEventListener('change', () => {
             drawProjection();
@@ -288,7 +295,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         drawProjection();
-        drawSawhorseProjection(carbon1, carbon2, 'staggered');
+        drawSawhorseProjection(carbon1, carbon2);
 
         });
     });
@@ -390,7 +397,7 @@ function drawCarbon(x, y) {
 
 function drawHydrogenLabels(cx, cy, substituents, positionKey, isBack) {
 
-    const conformation = document.getElementById('conformation').value;
+    const conformation = document.querySelector('input[name="conformation"]:checked').value;
      
     // Set rotation for staggered (60 degrees) or eclipsed (0 degrees)
     const rotation = conformation === 'staggered' ? 60 : eclipsed_offset;
@@ -454,7 +461,7 @@ function drawBondSaw(x1, y1, x2, y2, dashed = false) {
 }
 
 
-function drawSawhorseProjection(c1, c2, conformation = 'staggered') {
+function drawSawhorseProjection(c1, c2) {
     console.log("draw saw");
     const sawctx = sawcanvas.getContext('2d');
     
@@ -464,7 +471,7 @@ function drawSawhorseProjection(c1, c2, conformation = 'staggered') {
     
     //drawCarbon(c1.x, c1.y);
     //drawCarbon(c2.x, c2.y);
-
+    const conformation = document.querySelector('input[name="conformation"]:checked').value;
     // Set angles for staggered or eclipsed
     const angle = conformation === 'staggered' ? angleOffset : angleEclipsed;
     
@@ -483,5 +490,5 @@ function drawSawhorseProjection(c1, c2, conformation = 'staggered') {
 
 // Initialize with default drawing
 drawProjection();
-drawSawhorseProjection(carbon1, carbon2, 'staggered');
+drawSawhorseProjection(carbon1, carbon2);
 

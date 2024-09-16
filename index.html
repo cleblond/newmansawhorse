@@ -13,10 +13,11 @@
        <div class="top-columns">
         <div class="column">
             <label for="conformation">Conformation</label>
-            <select id="conformation" name="conformation">
-                <option value="staggered">Staggered</option>
-                <option value="eclipsed">Eclipsed</option>
-            </select>
+            <label for="staggered">Staggered</label> 
+            <input type="radio" id="staggered" name="conformation" value="staggered" checked />
+            
+            <label for="eclipsed">Eclipsed</label> 
+            <input type="radio" id="eclipsed" name="conformation" value="eclipsed" />
            
             <label for="eclipsed_offset">Eclipsed Offset</label>
             <input type="number" id="eclipsed_offset" name = "eclipsed_offset" min="0" max="30" value = "10" />
