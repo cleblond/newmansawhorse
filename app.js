@@ -285,8 +285,8 @@ document.addEventListener('DOMContentLoaded', () => {
         input.addEventListener('input', (e) => {
         if (Number.isInteger(parseInt(e.data))) {
             const position = e.target.selectionStart - 1; // Subtract 1 to get the position of the last character added
-            const subscripts = ["\u2080", "\u2081", "\u2082", "\u2083", "\u2084", "\u2085", "\u2086", "\u2087", "\u2088", "\u2089"];
 
+            const subscripts = ["\u2080", "\u2081", "\u2082", "\u2083", "\u2084", "\u2085", "\u2086", "\u2087", "\u2088", "\u2089"];
             let str = document.getElementById(e.target.id).value;
             let newStr = str.substring(0, position) + subscripts[e.data] + str.substring(position + 1);
             

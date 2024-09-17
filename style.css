@@ -16,11 +16,18 @@ width: 5em;
 }
 
 canvas {
-    border: 1px solid #ccc;
+   /* border: 1px solid #ccc;*/
+}
+
+
+canvas#sawhorseCanvas {
+
+    margin-top: 100px;
+    
 }
 
 .column {
-      width: 45%;
+      width: 30%;
       text-align: center;
 
 }
