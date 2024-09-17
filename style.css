@@ -29,7 +29,7 @@ canvas#sawhorseCanvas {
 .column {
       width: 30%;
       text-align: center;
-
+      flex: 1 1 300px;
 }
 
 .footer {
@@ -40,7 +40,8 @@ canvas#sawhorseCanvas {
 .top-columns {
   display: flex;
       margin: auto;
-  
+      flex-wrap: wrap;
+      flex-flow: row wrap;
 }
 
 .controls {
