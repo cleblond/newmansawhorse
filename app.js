@@ -122,8 +122,8 @@ function drawBonds(ctx, cx, cy, bondLength, substituents, rotation, isFront = fa
         
         ctx.fillStyle = substituents[positionKey][i].color; 
         
-        ctx.textAlign = calcTextAlign(xEnd, yEnd);
-        ctx.textBaseline = calcTextBaseLine(xEnd, yEnd);eclipsed_offset
+        ctx.textAlign = calcTextAlign(xEnd, yEnd, cx, cy);
+        ctx.textBaseline = calcTextBaseLine(xEnd, yEnd, cx, cy);
         
         //if (i==0) {
              //ctx.fillText(substituents[positionKey][i].label, substituents[positionKey][i].x, substituents[positionKey][i].y);         
@@ -140,59 +140,59 @@ function drawBonds(ctx, cx, cy, bondLength, substituents, rotation, isFront = fa
 }
 
 
-function calcTextAlign(x,y) {
+function calcTextAlign(x,y, centX, centY) {
     //1st quad
     
     //console.log(x,y);
     
-    if (Math.round(x) == 150 && y > 150) {
+    if (Math.round(x) == centX && y > centY) {
         return 'left';
     }
 
-    if (Math.round(x) == 150 && y < 150) {
+    if (Math.round(x) == centX && y < centY) {
         return 'left';
     }
 
-    if (x > 150 && y > 150) {
+    if (x > centX && y > centY) {
         return 'left';
     }
 
-    if (x > 150 && y < 150) {
+    if (x > centX && y < centY) {
         return 'left';
     }
     
-    if (x < 150 && y < 150) {
+    if (x < centX && y < centY) {
         return 'right';
     }
 
-    if (x < 150 && y > 150) {
+    if (x < centX && y > centY) {
         return 'right';
     }
 }
 
-function calcTextBaseLine(x,y) {
+function calcTextBaseLine(x,y, centX, centY) {
 
-    if (Math.round(x) == carbon1.x && y > carbon1.y) {
+    if (Math.round(x) == centX && y > centY) {
         return 'top';
     }
 
-    if (Math.round(x) == carbon1.x && y < carbon1.y) {
+    if (Math.round(x) == centX && y < centY) {
         return 'bottom';
     }
 
-    if (x > carbon1.x && y > carbon1.y) {
+    if (x > centX && y > centY) {
         return 'middle';
     }
 
-    if (x > carbon1.x && y < carbon1.y) {
+    if (x > centX && y < centY) {
         return 'middle';
     }
     
-    if (x < carbon1.x && y < carbon1.y) {
+    if (x < centX && y < centY) {
         return 'middle';
     }
 
-    if (x < carbon1.x && y > carbon1.y) {
+    if (x < centX && y > centY) {
         return 'middle';
     }
 
@@ -491,6 +491,8 @@ function drawCarbon(x, y) {
 
 function drawHydrogenLabels(cx, cy, substituents, positionKey, isBack) {
 
+    console.log("Draw H labels");
+
     conformation = document.querySelector('input[name="conformation"]:checked').value;
      
     // Set rotation for staggered (60 degrees) or eclipsed (0 degrees)
@@ -514,6 +516,15 @@ function drawHydrogenLabels(cx, cy, substituents, positionKey, isBack) {
     
         if (i==0 || i==1) {sawctx.textAlign = 'left'; sawctx.textBaseline = 'middle'};
         if (i==2) {sawctx.textAlign = 'right'; sawctx.textBaseline = 'middle'};
+        
+        if (isBack) {
+        
+        sawctx.textAlign = calcTextAlign(cx,cy, carbon1.x, carbon1.y); sawctx.textBaseline = calcTextBaseLine(cx, cy, carbon1.x, carbon1.y);
+
+        }
+        
+        
+        
 
         const angle = angles[i];
         const xEnd = cx + bondLength * Math.cos(angle);
