@@ -138,6 +138,76 @@ function drawBonds(ctx, cx, cy, bondLength, substituents, rotation, isFront = fa
     }
 }
 
+
+function calcTextAlign(x,y) {
+    //1st quad
+    if (Math.round(x) == 0 && y > 150) {
+        console.log("Here");
+        return 'left';
+    }
+
+    if (Math.round(x) == 0 && y < 150) {
+        console.log("Here");
+        return 'left';
+    }
+
+
+    if (x > 150 && y < 150) {
+        console.log("Here");
+        return 'left';
+    }
+    
+    if (x < 150 && y < 150) {
+        console.log("Here");
+        return 'right';
+    }
+
+    if (x < 150 && y > 150) {
+        console.log("Here");
+        return 'right';
+    }
+
+
+
+}
+
+function calcTextBaseLine(x,y) {
+
+    if (Math.round(x) == 0 && y > 150) {
+        console.log("Here");
+        return 'bottom';
+    }
+
+    if (Math.round(x) == 0 && y < 150) {
+        console.log("Here");
+        return 'top';
+    }
+
+    if (x > 150 && y > 150) {
+        console.log("Here");
+        return 'middle';
+    }
+
+
+    if (x > 150 && y < 150) {
+        console.log("Here");
+        return 'middle';
+    }
+    
+    if (x < 150 && y < 150) {
+        console.log("Here");
+        return 'right';
+    }
+
+    if (x < 150 && y > 150) {
+        console.log("Here");
+        return 'right';
+    }
+
+}
+
+
+
 // Function to draw partial bond that is visible outside the circle
 function drawPartialBond(ctx, cx, cy, xEnd, yEnd, circleRadius) {
     // Calculate intersection points with the circle
