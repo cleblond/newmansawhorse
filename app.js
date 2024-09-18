@@ -34,6 +34,10 @@ const fontSize = '20px';
 let eclipsed_offset = document.getElementById('eclipsed_offset').value;
 
 
+let conformation = document.querySelector('input[name="conformation"]:checked').value;
+let rotation = conformation === 'staggered' ? 60 : eclipsed_offset;
+let rotated = conformation === 'staggered' ? 1 : 0;
+
 const substituentOffset = 10;
 function drawProjection() {
     const ctx = canvas.getContext('2d');
@@ -48,10 +52,10 @@ function drawProjection() {
 
     
     eclipsed_offset = document.getElementById('eclipsed_offset').value;
-    const conformation = document.querySelector('input[name="conformation"]:checked').value;
+    conformation = document.querySelector('input[name="conformation"]:checked').value;
      
     // Set rotation for staggered (60 degrees) or eclipsed (0 degrees)
-    const rotation = conformation === 'staggered' ? 60 : eclipsed_offset;
+    //rotation = conformation === 'staggered' ? 60 : eclipsed_offset;
 
     // Clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -118,21 +122,18 @@ function drawBonds(ctx, cx, cy, bondLength, substituents, rotation, isFront = fa
         
         ctx.fillStyle = substituents[positionKey][i].color; 
         
-        // Draw substituent at updated position
+        ctx.textAlign = calcTextAlign(xEnd, yEnd);
+        ctx.textBaseline = calcTextBaseLine(xEnd, yEnd);eclipsed_offset
         
-        if (i==0 || i==1) {ctx.textAlign = 'left'; ctx.textBaseline = 'middle'};
-        if (i==2) {ctx.textAlign = 'right'; ctx.textBaseline = 'middle'};
+        //if (i==0) {
+             //ctx.fillText(substituents[positionKey][i].label, substituents[positionKey][i].x, substituents[positionKey][i].y);         
+        //} else if (i==1) {
+            //let fudge = 0;
+            //if (positionKey == "back") {fudge = 4}
+            //ctx.fillText(substituents[positionKey][i].label, substituents[positionKey][i].x, substituents[positionKey][i].y);    
         
-        if (i==0) {
-             ctx.fillText(substituents[positionKey][i].label, substituents[positionKey][i].x-7, substituents[positionKey][i].y);         
-        } else if (i==1) {
-            let fudge = 0;
-            if (positionKey == "back") {fudge = 4}
-            ctx.fillText(substituents[positionKey][i].label, substituents[positionKey][i].x-7, substituents[positionKey][i].y+fudge);    
-        
-        } else if (i==2) {
-            ctx.fillText(substituents[positionKey][i].label, substituents[positionKey][i].x+7, substituents[positionKey][i].y);        
-        }
+        //} else if (i==2) {
+            ctx.fillText(substituents[positionKey][i].label, substituents[positionKey][i].x + adjustment(xEnd,yEnd), substituents[positionKey][i].y); 
         
         
     }
@@ -141,71 +142,78 @@ function drawBonds(ctx, cx, cy, bondLength, substituents, rotation, isFront = fa
 
 function calcTextAlign(x,y) {
     //1st quad
-    if (Math.round(x) == 0 && y > 150) {
-        console.log("Here");
+    
+    //console.log(x,y);
+    
+    if (Math.round(x) == 150 && y > 150) {
         return 'left';
     }
 
-    if (Math.round(x) == 0 && y < 150) {
-        console.log("Here");
+    if (Math.round(x) == 150 && y < 150) {
         return 'left';
     }
 
+    if (x > 150 && y > 150) {
+        return 'left';
+    }
 
     if (x > 150 && y < 150) {
-        console.log("Here");
         return 'left';
     }
     
     if (x < 150 && y < 150) {
-        console.log("Here");
         return 'right';
     }
 
     if (x < 150 && y > 150) {
-        console.log("Here");
         return 'right';
     }
-
-
-
 }
 
 function calcTextBaseLine(x,y) {
 
-    if (Math.round(x) == 0 && y > 150) {
-        console.log("Here");
-        return 'bottom';
-    }
-
-    if (Math.round(x) == 0 && y < 150) {
-        console.log("Here");
+    if (Math.round(x) == carbon1.x && y > carbon1.y) {
         return 'top';
     }
 
-    if (x > 150 && y > 150) {
-        console.log("Here");
+    if (Math.round(x) == carbon1.x && y < carbon1.y) {
+        return 'bottom';
+    }
+
+    if (x > carbon1.x && y > carbon1.y) {
         return 'middle';
     }
 
-
-    if (x > 150 && y < 150) {
-        console.log("Here");
+    if (x > carbon1.x && y < carbon1.y) {
         return 'middle';
     }
     
-    if (x < 150 && y < 150) {
-        console.log("Here");
-        return 'right';
+    if (x < carbon1.x && y < carbon1.y) {
+        return 'middle';
     }
 
-    if (x < 150 && y > 150) {
-        console.log("Here");
-        return 'right';
+    if (x < carbon1.x && y > carbon1.y) {
+        return 'middle';
     }
 
 }
 
+
+function adjustment(x,y) {
+
+    if (Math.round(x) == carbon1.x && y > carbon1.y) {
+        console.log("top");
+        return -7;
+    }
+
+    if (Math.round(x) == carbon1.x && y < carbon1.y) {
+        console.log("bot");
+        return -7;
+    }
+
+    return 0;
+
+}
 
 
 // Function to draw partial bond that is visible outside the circle
@@ -290,7 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Get all input fields
     const inputFields = document.querySelectorAll('input[type="text"]');
     //const conformation = document.getElementById('conformation');
-    const conformation = document.querySelector('input[name="conformation"]:checked').value;
+    conformation = document.querySelector('input[name="conformation"]:checked').value;
 
     const confinputs = document.querySelectorAll('input[name="conformation"]');
  
@@ -300,6 +308,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     confinputs.forEach(function(input) {
         input.addEventListener('change', () => {
+        
+            console.log("Change");
+            conformation = document.querySelector('input[name="conformation"]:checked').value;
+            console.log(conformation);
+	    rotation = conformation === 'staggered' ? 60 : eclipsed_offset;
+	    //console.log(rotation);
+	    rotated = conformation === 'staggered' ? 1 : 0;
+	    //rotated=1;
+            //drawProjection();
+        
+        
             console.log("Change");
             drawProjection();
             drawSawhorseProjection(carbon1, carbon2);
@@ -340,7 +359,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     eclipsed_input.addEventListener('change', () => {
-            drawProjection();
+	    if (conformation == "eclipsed") {
+		    eclipsed_offset = Number(document.getElementById('eclipsed_offset').value);
+		    rotation = eclipsed_offset;
+		    console.log(rotation);
+		    drawProjection();
+            }
     });
 
     // Track which input field was last focused
@@ -467,10 +491,10 @@ function drawCarbon(x, y) {
 
 function drawHydrogenLabels(cx, cy, substituents, positionKey, isBack) {
 
-    const conformation = document.querySelector('input[name="conformation"]:checked').value;
+    conformation = document.querySelector('input[name="conformation"]:checked').value;
      
     // Set rotation for staggered (60 degrees) or eclipsed (0 degrees)
-    const rotation = conformation === 'staggered' ? 60 : eclipsed_offset;
+    //rotation = conformation === 'staggered' ? 60 : eclipsed_offset;
     const baseAngles = [0, 120, 240].map(angle => angle * Math.PI / 180);
     // Adjust angles based on whether they are front or back bonds
     
@@ -478,6 +502,8 @@ function drawHydrogenLabels(cx, cy, substituents, positionKey, isBack) {
     
     sawctx.lineWidth = 3;
     sawctx.font = `${fontSize} Arial`;
+    
+    
     if (isBack) {
     
     sawctx.lineWidth = 2;
@@ -492,6 +518,8 @@ function drawHydrogenLabels(cx, cy, substituents, positionKey, isBack) {
         const angle = angles[i];
         const xEnd = cx + bondLength * Math.cos(angle);
         const yEnd = cy + bondLength * Math.sin(angle);
+
+        console.log(xEnd, yEnd);
 
         // Draw the full bond if not hiding behind the circle
         sawctx.beginPath();
@@ -531,6 +559,40 @@ function drawBondSaw(x1, y1, x2, y2, dashed = false) {
 }
 
 
+// Function to detect clicked substituent
+function rotate120() {
+
+        rotated = rotated + 1;
+        conformation = document.querySelector('input[name="conformation"]:checked').value;
+	
+	function isEven(n) {
+   		return n % 2 == 0;
+	}
+	
+	if (conformation == 'staggered') {
+	
+		rotation = rotated*60;
+		if (isEven(rotation/60)) {
+			rotation = rotated*60 + eclipsed_offset;
+		}
+	} else {
+	
+                rotation = rotated*60;
+		if (isEven(rotation/60)) {
+			rotation = rotated*60+eclipsed_offset;
+		} else {
+		        rotation = rotated*60;
+		}
+	        	
+	}
+
+	drawProjection();
+	drawSawhorseProjection(carbon1, carbon2);
+
+}
+
+
+
 function drawSawhorseProjection(c1, c2) {
     console.log("draw saw");
     const sawctx = sawcanvas.getContext('2d');
@@ -541,7 +603,7 @@ function drawSawhorseProjection(c1, c2) {
     
     //drawCarbon(c1.x, c1.y);
     //drawCarbon(c2.x, c2.y);
-    const conformation = document.querySelector('input[name="conformation"]:checked').value;
+    conformation = document.querySelector('input[name="conformation"]:checked').value;
     // Set angles for staggered or eclipsed
     const angle = conformation === 'staggered' ? angleOffset : angleEclipsed;
     

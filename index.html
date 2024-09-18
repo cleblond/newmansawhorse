@@ -41,10 +41,11 @@
             <input style="display: inline-block;" type="radio" id="eclipsed" name="conformation" value="eclipsed" />
            <br>
             <label style="display: inline-block;" for="eclipsed_offset">Eclipsed Offset</label>
-            <input style="display: inline-block;" type="number" id="eclipsed_offset" name = "eclipsed_offset" min="0" max="30" value = "10" />
+            <input style="display: inline-block;" type="number" id="eclipsed_offset" name = "eclipsed_offset" min="0" step = "5" max="30" value = "10" />
             <br><label>Drag Substituents to fine tune position!</label>
 
             <canvas id="projectionCanvas" width="300" height="300"></canvas>
+            <button onclick="rotate120()">Rotate</button>
 
 
          </div>
