@@ -508,7 +508,7 @@ function drawHydrogenLabels(cx, cy, substituents, positionKey, isBack) {
     
     if (isBack) {
     
-    sawctx.lineWidth = 2;
+    sawctx.lineWidth = 1;
     
     }
 

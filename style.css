@@ -22,7 +22,7 @@ canvas {
 
 canvas#sawhorseCanvas {
 
-    margin-top: 100px;
+    
     
 }
 
@@ -59,3 +59,7 @@ label {
     background-color: #f0f0f0;
 }
 
+input[type=text] {
+    width: 5em;
+    text-align: center;
+}
