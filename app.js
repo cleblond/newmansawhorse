@@ -327,12 +327,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     colors.forEach(function(input) {
         let hueb = new Huebee(input, {
-            saturations: 1,
+            //saturations: 1,
             setBGColor: true,
-            setText: true,
-            inputId: input.id,
-            shades: 3,
-            hues: 1
+            //setText: true,
+            //inputId: input.id,
+            //shades: 3,
+            //hues: 1
         });
         
         hueb.on( 'change', function(color, hue, sat, lum ) {
